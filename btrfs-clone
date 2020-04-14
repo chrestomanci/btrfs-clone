@@ -31,7 +31,7 @@ from argparse import ArgumentParser
 from stat import ST_DEV
 from time import sleep
 from traceback import print_exc
-
+from datetime import datetime
 
 ######################################################
 # Remote debug stuff. Remove before push
@@ -105,6 +105,9 @@ class Subvol:
                 self.ogen = int(v)
             elif k == "Flags":
                 self.ro = (v.find("readonly") != -1)
+            elif k == "Creation time":
+                # The create time from btrfs has a timezone that python strptime can't cope with
+                self.create_time = datetime.strptime(v[:-6], '%Y-%m-%d %H:%M:%S')
 
         for attr in ("parent_id", "parent_uuid", "ro", "gen", "ogen", "uuid"):
             if not hasattr(self, attr):
