@@ -36,7 +36,7 @@ from traceback import print_exc
 ######################################################
 # Remote debug stuff. Remove before push
 import pydevd
-pydevd.settrace("EclipseIDE_HOSTNAME", port=5678)
+pydevd.settrace("localhost", port=5678)
 ######################################################
 
 
