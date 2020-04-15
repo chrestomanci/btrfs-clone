@@ -106,8 +106,8 @@ class Subvol:
             elif k == "Flags":
                 self.ro = (v.find("readonly") != -1)
             elif k == "Creation time":
-                # The create time from btrfs has a timezone that python strptime can't cope with
-                self.create_time = datetime.strptime(v[:-6], '%Y-%m-%d %H:%M:%S')
+                without_tz = v[:-6]     # The create time from btrfs has a timezone that python strptime can't cope with
+                self.create_time = datetime.strptime(without_tz, '%Y-%m-%d %H:%M:%S')
 
         for attr in ("parent_id", "parent_uuid", "ro", "gen", "ogen", "uuid"):
             if not hasattr(self, attr):
