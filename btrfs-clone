@@ -161,6 +161,9 @@ def get_subvols(mnt):
         except:
             raise
         else:
+            # TODO: Check the timestamp & exclude if it is before/after the time range.
+            abc = 123   # Line to breakpoint on.
+
             svs.append(sv)
     return svs
 
@@ -805,6 +808,10 @@ def make_args():
     ps.add_argument("-i", "--ignore-errors", action="store_true",
                     help="continue after send/recv errors")
     ps.add_argument("--log-compresslevel", type=int, default=9)
+    ps.add_argument("--not-after", type=lambda s: datetime.datetime.strptime(s, '%Y-%m-%d %H:%M'),
+                    default=datetime.now(), help="Exclude snapshots after this timestamp in format YYYY-MM-DD HH:mm")
+    ps.add_argument("--not-before", type=lambda s: datetime.datetime.strptime(s, '%Y-%m-%d %H:%M'),
+                    default=datetime.fromtimestamp(0), help="Exclude snapshots before this timestamp in format YYYY-MM-DD HH:mm")
     ps.add_argument("old")
     ps.add_argument("new")
     return ps
